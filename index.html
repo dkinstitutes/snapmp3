@@ -3,13 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<meta name="description" content="Snapking is a free, fast, and powerful YouTube converter tool for converting and downloading YouTube videos more efficiently. No apps required.">
 	<meta name="author" content="Dilawar Khan">
 	<meta name="theme-color" content="white">
 	<meta name="mobile-web-app-capable" content="yes">
-	<meta name="keywords" content="youtube to mp3, utube, youtube video, youtube downloader, youtube video download, yt videos downloader, free youtube videos downloader">
 	<link rel="manifest" href="manifest.json">
 	<title>YouTube to Mp3 Converter - Download Youtube Videos & Audios FREE: SnapKing</title>
+	<meta name="description" content="Snapking is a free, fast, and powerful YouTube to mp3 converter tool for converting and downloading YouTube videos more efficiently. No apps required.">
+	<meta name="keywords" content="youtube to mp3, utube, youtube video, youtube downloader, youtube video download, yt videos downloader, free youtube videos downloader">
   <!-- Bootstrap CSS Link -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome CSS Link -->
@@ -149,16 +149,16 @@
         </div>
         <br/>
 		<h2>1. Youtube to mp3 converter and downloader FREE</h2>
-<p>YouTube is the largest video-sharing platform on the internet with millions of users worldwide. YouTube content creators upload new videos every day. While YouTube does not offer a FREE downloading service for these videos, Snapking allows you to download your favorite YouTube videos as MP3 (audio) or MP4 (video) files efficiently. Snapking can be used on any device and is optimized for desktop, tablet, and mobile use. No additional software or app is required to download and convert YouTube videos.</p>
+<p>YouTube is the largest video-sharing platform on the internet with millions of users worldwide. YouTube content creators upload new videos every day. While YouTube does not offer a FREE downloading service for these videos, Snapking is created that allows you to download your favorite YouTube videos as MP3 (audio) or MP4 (video) files efficiently. Snapking can be used on any device and is optimized for desktop, tablet, and mobile use. No additional software or app is required to download and convert YouTube videos.</p>
 <h2>How to download youtube videos into mp3</h2>
 <ol>
 	<li>Open <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube.com</a> and search for the video you want to download.</li>
 	<li>Click on the share button of the video you want to download its MP3. Then, click on 'Copy link' to copy the link of this video.</li>
-	<li>Visit Snapking and paste the video link into our converter.</li>
+	<li>Visit <a href="https://snapking.app">Snapking.app</a> and paste the video link into our converter.</li>
 	<li>Checkmark the audio-only option. Select the MP3 as audio quality you want to download.</li>
-	<li>Click on the download button to start the downloading process, and the YouTube video will be downloaded automatically and seamlessly in MP3 format into your device.</li>
+	<li>Click on the download button to start the downloading process, Your favorite YouTube video will be downloaded automatically and seamlessly in MP3 format into your device.</li>
 </ol>
-<p>By using Snapking, you agree to our <a href="/" target="_blank" rel="noopener noreferrer">Terms of Use</a>. Thank you for using our YouTube to MP3 Converter.</p>
+<p>By using Snapking, you agree to our <a href="terms-of-use.html" target="_blank" rel="noopener noreferrer">Terms of Use</a>. Thank you for using our YouTube to MP3 Converter.</p>
 <h2>Can you use Snapking to download youtube videos?</h2>
 <p>Absolutely! Our YouTube converter tool allows you to download YouTube videos in multiple formats. You can choose multiple options for downloading media, including MP4 and MP3, and even download videos in HD quality. Simply paste the YouTube video link into our converter, select your desired format and quality, and start the download. It is super fast, simple, and free to download youtube videos and audios in multiple formates. Use our Youtube converter tool to enjoy your favorite videos and audio as mp3 offline anytime, anywhere.</p>
 <h2>Snapking - Your all in one social media videos downloading partner</h2>
@@ -184,30 +184,6 @@
 <p>Choosing the right YouTube to MP3 converter tool is very important for seamlessly converting your favorite videos into audio files. With a reliable converter, you can effortlessly create MP3s from YouTube videos, enabling you to enjoy your favorite music and podcasts offline. Whether you're on a desktop or mobile device, a high-quality converter ensures that you can easily access your converted files anytime, anywhere. By simplifying the conversion process, a good YouTube to MP3 converter enhances your overall digital experience, offering convenience and flexibility in managing your media library.</p>
 
 	</main>
-<script>
-	function downloadTikTokVideo() {
-            const videoUrl = document.getElementById('tiktok-url').value;
-            const downloadLink = document.createElement('a');
-            downloadLink.href = `https://www.tiktok.com/oembed?url=${encodeURIComponent(videoUrl)}`;
-            downloadLink.setAttribute('download', '');
-            downloadLink.click();
-        }
-
-        async function downloadFacebookVideo() {
-            const videoUrl = document.getElementById('facebook-url').value;
-            const response = await fetch(`https://fbdownloader.net/download.php?url=${encodeURIComponent(videoUrl)}`);
-            const data = await response.json();
-            if (data && data.video && data.video.high) {
-                const downloadLink = document.createElement('a');
-                downloadLink.href = data.video.high;
-                downloadLink.setAttribute('download', '');
-                downloadLink.click();
-            } else {
-                alert('Failed to download Facebook video. Please check the URL.');
-            }
-        }
-
-</script>
 	<script>
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register('/sw.js')
