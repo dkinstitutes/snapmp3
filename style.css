@@ -346,8 +346,7 @@ h2{
   .card:hover h3 {
     color: #000;
   }
-
-  .card p {
+.card p {
     font-size: 16px;
     color: #666;
     transition: color 0.3s ease-in-out;
@@ -359,4 +358,20 @@ h2{
   .heading-1{
     color: white;
     font-size: 28px;
+  }
+
+  .feature {
+    margin-bottom: 10px;
+    padding-left: 30px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .feature:before {
+    content: "\f058";
+    font-family: "Font Awesome 5 Free";
+    color: green;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 20px;
   }
