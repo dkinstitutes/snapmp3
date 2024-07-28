@@ -1,6 +1,6 @@
 {
-  "name": "SNAPKING",
-  "short_name": "SNAPKING",
+  "name": "SnapMP3",
+  "short_name": "SnapMP3",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
