@@ -1,9 +1,8 @@
 function formatBytes(a, b = 2) {
-if (!+a)
-		return "0 Bytes";
-	const c = 0 > b ? 0 :b,
-		d = Math.floor(Math.log(a) / Math.log(1024));
-	return `${parseFloat((a/Math.pow(1024,d)).toFixed(c))} ${["Bytes","KiB","MiB","GiB","TiB","PiB","EiB","ZiB","YiB"][d]}`;
+    if (!+a) return "0 Bytes";
+    const c = 0 > b ? 0 : b;
+    const d = Math.floor(Math.log(a) / Math.log(1024));
+    return `${parseFloat((a / Math.pow(1024, d)).toFixed(c))} ${["Bytes", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB"][d]}`;
 }
 
 const extractURL = inputText => inputText.match(/(https?|http):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|]/ig);
@@ -17,113 +16,109 @@ const audioCheckbox = document.getElementById('isAudioOnly');
 const vQualitySelector = document.getElementById("vQuality");
 
 const status = {
-	"loading": function() {
-		statusDiv.innerHTML = '<i class="gg-loadbar-alt"></i>';
-	},
-	"success": function(fileSize) {
-		statusDiv.innerHTML = `<i class="gg-check"></i><br><h4>${fileSize}</h4>`;
-	},
-	"error": function(msg) {
-		statusDiv.innerHTML = msg;
-	}
-}
-
+    "loading": function() {
+        statusDiv.innerHTML = '<i class="gg-loadbar-alt"></i>';
+    },
+    "success": function(fileSize) {
+        statusDiv.innerHTML = `<i class="gg-check"></i><br><h4>${fileSize}</h4>`;
+    },
+    "error": function(msg) {
+        statusDiv.innerHTML = `<i class="gg-error"></i><br><h4>${msg}</h4>`;
+    }
+};
 
 function processUrl(x) {
-	if (!url) return;
-	inputUrl.value = extractURL(url);
-	if (audio) {
-		audioCheckbox.checked = true;
-		submit(x);
-		return;
-	}
-	submit(x);
+    if (!x) return;
+    inputUrl.value = extractURL(x);
+    if (audio) {
+        audioCheckbox.checked = true;
+    }
+    submit(x);
 }
 processUrl(url);
 
-
-
 document.forms[0].addEventListener("submit", event => {
-	event.preventDefault();
-	submit(inputUrl.value);
+    event.preventDefault();
+    submit(inputUrl.value);
 });
 
 audioCheckbox.addEventListener("change", () => {
-	vQualitySelector.toggleAttribute("disabled")
+    vQualitySelector.toggleAttribute("disabled");
 });
 
-
 function submit(x) {
-	if (!x) return;
-	var api = "https://co.wuk.sh/api/json";
-	var cURL = extractURL(x);
-	var url = encodeURIComponent(cURL);
+    if (!x) return;
+    const api = "https://co.wuk.sh/api/json";
+    const cURL = extractURL(x);
+    if (!cURL) {
+        status.error('Invalid URL');
+        return;
+    }
+    const url = encodeURIComponent(cURL[0]); // Use the first URL from the array
 
-	var vQuality = vQualitySelector.value || 720;
-	var isAudioOnly = audioCheckbox.checked || false;
-	var aFormat = isAudioOnly ? (document.getElementById('aFormat').value || 'best') : null;
+    const vQuality = vQualitySelector.value || 720;
+    const isAudioOnly = audioCheckbox.checked || false;
+    const aFormat = isAudioOnly ? (document.getElementById('aFormat').value || 'best') : null;
 
-	const requestBody = {
-		url: url,
-		filenamePattern: 'pretty',
-		vQuality: vQuality,
-		isAudioOnly: isAudioOnly,
-		aFormat: aFormat
-	};
+    const requestBody = {
+        url: url,
+        filenamePattern: 'pretty',
+        vQuality: vQuality,
+        isAudioOnly: isAudioOnly,
+        aFormat: aFormat
+    };
 
+    const requestOptions = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(requestBody),
+    };
 
-	const requestOptions = {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'Accept': 'application/json'
-		},
-		body: JSON.stringify(requestBody),
-	};
-	status.loading();
+    status.loading();
 
-	fetch(api, requestOptions)
-		.then(response => {
-			if (!response.ok) {
-				status.error('Network response was not ok');
-			}
-			return response.json();
-		})
-		.then(data => {
-			console.log('Response data:', data);
-			if (data.status == 'error') {
-				status.error(data.text);
-				return;
-			}
-			else if (data.status == 'redirect') {
-				window.open(data.url, '_blank');
-				status.success('Redirected');
-				return;
-			}
+    fetch(api, requestOptions)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Response data:', data);
+            if (data.status === 'error') {
+                status.error(data.text);
+                return;
+            }
+            if (data.status === 'redirect') {
+                window.open(data.url, '_blank');
+                status.success('Redirected');
+                return;
+            }
 
-			const fileUrl = data.url;
-			// Fetch the file size
-			fetch(fileUrl)
-				.then(response => {
-					if (!response.ok) {
-						status.error('File download failed');
-					}
-					return response.headers.get('content-length');
-				})
-				.then(fileSize => {
-					status.success(formatBytes(fileSize));
-
-					// create a download link
-					const downloadLink = document.createElement('a');
-					downloadLink.href = fileUrl;
-					downloadLink.download = 'file';
-					downloadLink.click();
-				})
-				.catch(error => {
-					status.error('Error downloading file:', error);
-				});
-		})
-		.catch(error => {
-			status.error(error);
-		});
+            const fileUrl = data.url;
+            return fetch(fileUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('File download failed');
+                    }
+                    const fileSize = response.headers.get('content-length');
+                    if (fileSize) {
+                        status.success(formatBytes(fileSize));
+                    } else {
+                        status.success('File size not available');
+                    }
+                    
+                    // Create a download link
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = fileUrl;
+                    downloadLink.download = 'file';
+                    downloadLink.click();
+                });
+        })
+        .catch(error => {
+            status.error(error.message);
+        });
 }
